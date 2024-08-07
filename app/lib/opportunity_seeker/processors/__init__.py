@@ -3,7 +3,7 @@ from app.lib.opportunity_seeker.processors import moving_average
 registry = {
     "LONG_MA10_UPCROSS_MA20_WHILE_MA120_UPWARD": {
         'name': 'LONG_MA10_UPCROSS_MA20_WHILE_MA120_UPWARD',
-        'processor_object': moving_average.MACrossSignalProcessor,
+        'processor_object': moving_average.MAOpportunityProcessor,
         'handler': 'run',
         # 'kwargs': {
         #     'PRI_MA': "MA_10",        # Primary MA line

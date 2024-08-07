@@ -1,6 +1,6 @@
 import logging
 import datetime
-from app.lib.db_watcher import mongoengine_tool
+# from app.lib.db_watcher import mongoengine_tool
 from app.utilities.progress_bar import progress_bar
 from app.lib.strategy import StrategyDirecter
 from app.lib.scenario_director import ScenarioDirector

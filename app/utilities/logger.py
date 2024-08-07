@@ -19,14 +19,17 @@ def create_logger(log_file='stellaris.log'):
     console_handler.setLevel(logging.DEBUG)
     console_handler.setFormatter(formatter)
 
+    log_file_path = os.path.join(pwd, 'app', 'log', log_file)
+    check_log_dir(log_file_path)
+
     # dynamically determine the log file path
-    splited_path = pwd.split(os.sep)
-    if splited_path[-1] == 'caifubao-backend':
-        log_file_path = os.path.join(pwd, 'app', 'log', log_file)
-    else:
-        i = splited_path.index('caifubao-backend')
-        path_str = os.sep.join(splited_path[:i + 1])
-        log_file_path = os.path.join(path_str, 'app', 'log', log_file)
+    # splited_path = pwd.split(os.sep)
+    # if splited_path[-1] == 'caifubao-backend':
+    #     log_file_path = os.path.join(pwd, 'app', 'log', log_file)
+    # else:
+    #     i = splited_path.index('caifubao-backend')
+    #     path_str = os.sep.join(splited_path[:i + 1])
+    #     log_file_path = os.path.join(path_str, 'app', 'log', log_file)
 
     # Create a file hist_quote_handler
     file_handler = handlers.RotatingFileHandler(log_file_path,
@@ -49,3 +52,11 @@ def create_logger(log_file='stellaris.log'):
     logger.propagate = False
 
     return logger
+
+
+def check_log_dir(log_file_path):
+    if not os.path.exists(log_file_path):
+        print(f"LOG FILE PATH {log_file_path} DOES NOT EXIST")
+        log_dir_path = os.path.dirname(log_file_path)
+        os.makedirs(log_dir_path, exist_ok=True)
+        print(f"LOG FILE DIR {log_dir_path} CREATED")

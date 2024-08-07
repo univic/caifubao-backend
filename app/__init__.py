@@ -45,3 +45,6 @@ def create_app():
     # strategy_director.load_strategy("Strategy01")
 
     # MainDispatcher.dispatch()
+
+def check_workdir():
+    pass
