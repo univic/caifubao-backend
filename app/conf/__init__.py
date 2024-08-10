@@ -2,6 +2,9 @@
 # Author : univic
 # Date: 2021-02-03
 
+import os
+from dotenv import load_dotenv
+
 
 class BaseConfig(object):
     SECRET_KEY = ""
@@ -43,7 +46,17 @@ class BaseConfig(object):
     }
 
 
+def prerequisite_check():
+    if os.path.exists('.env'):
+        load_dotenv()
+    else:
+        # logger.critical('ENV VAR NOT FOUND.')
+        print('CRITICAL ERROR: ENV VAR NOT FOUND.')
+        exit()
+
+
 def get_config():
+    prerequisite_check()
     if BaseConfig.USE_CONFIG == 'DEV':
         from app.conf.dev_config import DevConfig
         return DevConfig

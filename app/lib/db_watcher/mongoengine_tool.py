@@ -1,5 +1,6 @@
 import os
 import logging
+import traceback
 # from flask_mongoengine import MongoEngine
 from mongoengine import connect, disconnect
 from app.conf import app_config
@@ -30,12 +31,27 @@ class DBWatcher(object):
 
     def connect_to_db(self, alias='default'):
         logger.info(f'Opening database connection with alias {alias} in process {os.getpid()}')
-        conn = connect(db=app_config.MONGODB_SETTINGS["db"],
-                       host=app_config.MONGODB_SETTINGS["host"],
-                       port=app_config.MONGODB_SETTINGS["port"],
-                       alias=alias)
+        # print env
+        env_vars = dict(os.environ)  # 将环境变量转换为字典
 
-        self.db_conn = conn
+        if not app_config.MONGODB_SETTINGS["username"] and app_config.MONGODB_SETTINGS["password"]:
+            logger.error('MongoDB AUTH CONFIG NOT FOUND')
+        try:
+            conn = connect(db=app_config.MONGODB_SETTINGS["db"],
+                           host=app_config.MONGODB_SETTINGS["host"],
+                           port=app_config.MONGODB_SETTINGS["port"],
+                           username=app_config.MONGODB_SETTINGS["username"],
+                           password=app_config.MONGODB_SETTINGS["password"],
+                           authentication_source='admin',
+                           alias=alias)
+            if conn is None:
+                pass
+            self.db_conn = conn
+        except Exception as e:
+            msg_text = f'Encountered exception while trying to establish MongoDB connection: \r\n' \
+                       f'{traceback.format_exception(e)}'
+            # daily_report_maker.add_content('summary', msg_text)
+            logger.error(msg_text)
 
     @staticmethod
     def disconnect_from_db(alias='default'):

@@ -1,3 +1,4 @@
+.env
 .idea
 app/conf/dev_config.py
 app/conf/production_config.py

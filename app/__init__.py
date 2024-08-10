@@ -23,9 +23,9 @@ def create_app():
     db_watcher.initialize()
     db_watcher.get_db_connection()
 
-    # # Start Datahub
-    # datahub = Datahub()
-    # datahub.start()
+    # Start Datahub
+    datahub = Datahub()
+    datahub.start()
 
     # Start Task Controller
     # task_controller.initialize()
@@ -34,7 +34,7 @@ def create_app():
     # backtester = BasicBackTester(portfolio_name="test_portfolio", strategy_name="Strategy01", start_date="2020-01-01")
     # backtester.run()
 
-    # start real opeartion agent
+    # start real operation agent
     agent = RealOperationAgent(portfolio_name="test_portfolio", strategy_name="Strategy01")
     agent.run()
 
